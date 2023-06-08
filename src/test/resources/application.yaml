@@ -1,0 +1,110 @@
+spring:
+  application:
+    name: claim-internal-audit-api
+server:
+  servlet:
+    contextPath: /${spring.application.name}
+
+# ----------------------------------------------------------------------------------------
+############## DO NOT REMOVE ANY VALUES ABOVE THIS LINE ###############
+# The application name is the context path and is used to lookup configuration in Consul.
+# The application name and context path must be the same. Your application will not work
+# as expected if the application name and context path are not in sync.
+# ----------------------------------------------------------------------------------------
+
+# Only values that DO NOT change from environment to environment should be
+# defined outside of a Spring profile
+
+# The spring profiles defined below can be used when you are running locally.
+# When deploying via Chef, the default profile is the same as the environment
+# (DEV, TEST, ACPT, PROD, SBOX).
+#
+# The configuration can also be separated by profile by creating a file
+# named application-{ENV}.yaml. See /src/main/resources/application-ACPT.yaml
+# for an example.
+
+# See https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config
+# Also see https://confluence.vspglobal.com/x/KL9pAg
+
+---
+# The values below are specific to the "LOCAL" Spring profile. These values will be used when -Dspring.profiles.active=LOCAL
+spring.profiles: LOCAL
+
+claim-internal-audit-api:
+  some-config-value: some string value
+
+  features:
+    feature0:
+      enabled: true
+    feature1:
+      enabled: true
+    feature2:
+      enabled: false
+
+  items:
+    - item0
+    - item1
+    - item2
+
+# Used for PingFed token validation
+vspglobal:
+  jwt:
+    keys:
+    - name: pingfed
+      iss: https://login-rancho1.integration.vspglobal.com
+      aud: https://api-integration.vspglobal.com
+      jwks_uri: https://artifactory.vsp.com/ext-install-local/VSPGB-INT.json
+
+---
+spring.profiles: DEV
+
+claim-internal-audit-api:
+  some-config-value: some string value for DEV
+
+  features:
+    feature0:
+      enabled: false
+    feature1:
+      enabled: true
+    feature2:
+      enabled: false
+
+  items:
+    - item0
+    - item1
+    - item2
+
+vspglobal:
+  jwt:
+    keys:
+    - name: pingfed
+      iss: https://login-rancho1.integration.vspglobal.com
+      aud: https://api-integration.vspglobal.com
+      jwks_uri: file:/opt/vsp/jwks/VSPGB-INT.json
+
+---
+spring.profiles: TEST
+
+claim-internal-audit-api:
+  some-config-value: some string value for TEST
+
+  features:
+    feature0:
+      enabled: true
+    feature1:
+      enabled: true
+    feature2:
+      enabled: true
+
+  items:
+    - item0
+    - item1
+    - item2
+
+vspglobal:
+  jwt:
+    keys:
+    - name: pingfed
+      iss: https://login-rancho1.test.vspglobal.com
+      aud: https://api-test.vspglobal.com
+      jwks_uri: file:/opt/vsp/jwks/VSPGB-TEST.json

@@ -1,0 +1,16 @@
+
+claim-internal-audit-api:
+  some-config-value: some environment specific string value
+
+features:
+  feature0:
+    enabled: true
+  feature1:
+    enabled: false
+  feature2:
+    enabled: false
+
+items:
+  - item0
+  - item1
+  - item2
